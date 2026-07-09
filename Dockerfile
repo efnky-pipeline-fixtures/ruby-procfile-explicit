@@ -20,8 +20,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     chown -R rails:rails tmp log storage
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 COPY --chown=rails:rails . .
-RUN bundle exec rails assets:precompile
-RUN chown -R rails:rails /app
-EXPOSE 3000
+RUN bundle exec rails assets:precompile && \
+    chown -R rails:rails /app
 USER 1001
+EXPOSE 3000
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
